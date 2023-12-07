@@ -5,25 +5,32 @@ canvas.height = window.innerHeight;
 const c = canvas.getContext("2d");
 //c responsible for making any kind of drwawing in the canvas
 
-// canvas.addEventListener("mousedown",onmousedown);
-// canvas.addEventListener("mouseup",onmouseup);
+canvas.addEventListener("mousedown", onMouseDown);
 
-// function onmousedown(event){
-//     let (clientX , clientY) = event ;
-//     c.strokeStyle = red;
-//     c.beginPath();
-//     c.moveto(clientX,clientY);
-// }
+let previousPosition = null;
+let drawingColor = "blue";
 
-// function onmouseup(event){
-//     let (clientX,clientY) = event;
-//     c.lineTo(clientX,clientY);
-//     c.stroke();
-//     c.closePath();
-// }
+function onMouseDown(event) {
+    let { clientX: x, clientY: y } = event;
+    c.strokeStyle = drawingColor;
+    previousPosition = [x, y];
 
-c.beginPath();
-c.moveTo(200,300);
-c.lineTo(400,1000);
-c.stroke();
-c.closePath();
+    canvas.addEventListener("mousemove", onmousemove);
+    canvas.addEventListener("mouseup", onMouseUp);
+}
+
+function onmousemove(e) {
+    let currentPosition = [e.clientX, e.clientY];
+    c.beginPath();
+    c.moveTo(...previousPosition);
+    c.lineTo(...currentPosition);
+    c.stroke();
+    c.closePath();
+    previousPosition = currentPosition;
+}
+
+function onMouseUp(e) {
+    canvas.removeEventListener("mousemove", onmousemove);
+}
+
+
