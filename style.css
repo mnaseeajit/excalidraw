@@ -113,7 +113,7 @@ sub{
     width : 10px;
 }
 
-#circle{
+#circle,#square,#diamond{
     height : 20px;
     width : 20px;
 }
